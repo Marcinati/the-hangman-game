@@ -20,18 +20,17 @@ namespace The_Hangman_Game
         }
         public static void playAGame()
         {
-            showDashes();
             playARound();
             Console.Write("Do you want to play again Y/N?\n");
             var decision = Console.ReadLine();
             if (decision.ToUpper() == "Y")
             {
-                showDashes();
                 playARound();
             }
         }
         private static void playARound()
         {
+            showDashes();
             while (currentLife_ > 0)
             {
                 askUserToGuessALetterOrAWord();
