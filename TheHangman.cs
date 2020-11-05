@@ -26,6 +26,11 @@ namespace The_Hangman_Game
             String randomValue = randomWord.Value;
             return randomWord.Value;
         }
+        public static bool isUserGuessCorrect(string userGuess)
+        {
+            return currentWordToGuess_ == userGuess;
+        }
         private static int currentLife_ = startLifeValue;
+        private static string currentWordToGuess_ = findAWordToGuess();
     }
 }
