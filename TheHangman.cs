@@ -68,6 +68,7 @@ namespace The_Hangman_Game
                 }
                 else
                 {
+                    temporaryWordToGuess_ = temporaryWordToGuess_.Replace(guess, "");
                     Console.Write("Nice shot. \n");
                 }
             }
@@ -93,6 +94,10 @@ namespace The_Hangman_Game
         private static bool passwordValidator(string guess)
         {
             return guess == currentWordToGuess_ || currentWordToGuess_.Contains(guess);
+        }
+        private static bool winConditions()
+        {
+            return temporaryWordToGuess_ == "";
         }
         private static int currentLife_ = startLifeValue;
         private static string currentWordToGuess_ = findAWordToGuess();
