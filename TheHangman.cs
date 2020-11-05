@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace The_Hangman_Game
@@ -10,21 +11,12 @@ namespace The_Hangman_Game
         static int startLifeValue = 5;
         public static void playAGame()
         {
-            while(true)
+            do
             {
                 playARound();
+                resetGame();
                 Console.Write("Do you want to play again Y/N?\n");
-                var decision = Console.ReadLine();
-                if (decision.ToUpper() == "Y")
-                {
-                    resetGame();
-                    playARound();
-                }
-                else
-                {
-                    break;
-                }
-            }
+            } while (Console.ReadLine().ToUpper() == "Y");
         }
 
         private static string dashes()
@@ -52,9 +44,8 @@ namespace The_Hangman_Game
         {        
             Console.Write("The capitol of the " + currentCapital_ + " is " + temporaryWordAfterGuessing_ + "\n");
         }        
-
         private static string findAWordToGuess()
-        {
+        {      
             var words = new Dictionary<string, string>(){
             {"Albania", "TIRANA"},
             {"Belarus", "MINSK"},
@@ -143,7 +134,7 @@ namespace The_Hangman_Game
             else
             {
                 --currentLife_;
-                Console.Write("You have lost a chance. Try again. \n");
+                Console.Write("You have lost a chance.\n");
             }
         }
         private static void makeNotInAWordList(string guess)
