@@ -42,7 +42,7 @@ namespace The_Hangman_Game
             while (currentLife_ > 0)
             {
                 askUserToGuessALetterOrAWord();
-                showNotInAWordList();
+                showLife();
             }
         }
         private static void askUserToGuessALetterOrAWord()
@@ -85,6 +85,7 @@ namespace The_Hangman_Game
             {
                 notInWord_.Add(guess.ToUpper());
                 notInWord_.Sort();
+                showNotInAWordList();
             }
         }
         public static void showNotInAWordList()
