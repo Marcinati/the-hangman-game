@@ -43,7 +43,7 @@ namespace The_Hangman_Game
         }
         private static void askUserToGuessALetterOrAWord()
         {
-            Console.Write("Do You want to guess a letter or a word? \n Type L - for letter, W - for word and press enter. \n");
+            Console.Write("Do You want to guess a letter or a word? \n>>>Type L - for letter, W - for word and press enter. \n");
             var decision = Console.ReadLine();
             makeDecision(decision);
         }
@@ -55,6 +55,7 @@ namespace The_Hangman_Game
                 if (!passwordValidator(guess))
                 {
                     makeNotInAWordList(decision, guess);
+                    showNotInAWordList();
                     --currentLife_;
                     if (currentLife_ == 0)
                     {
@@ -81,7 +82,6 @@ namespace The_Hangman_Game
             {
                 notInWord_.Add(guess.ToUpper());
                 notInWord_.Sort();
-                showNotInAWordList();
             }
         }
         private static void showNotInAWordList()
