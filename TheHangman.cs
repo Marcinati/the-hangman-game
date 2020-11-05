@@ -22,7 +22,6 @@ namespace The_Hangman_Game
         public static void playAGame()
         {
             playARound();
-            showEndOfGameScreen();
             while(true)
             {
                 Console.Write("Do you want to play again Y/N?\n");
@@ -50,6 +49,7 @@ namespace The_Hangman_Game
                 if (winConditions())
                 {
                     Console.Write("Congratulations! You won.\n");
+                    showEndOfGameScreen();
                     break;
                 }
             }
@@ -127,8 +127,8 @@ namespace The_Hangman_Game
         }
         private static void showEndOfGameScreen()
         {
-            Console.Write("Guessing count: " + guessingCounter_ + "\n");
-            Console.Write("Guessing time:  " + roundTimeCounter_.Elapsed + "\n");
+            Console.Write("You guessed the capital after " + guessingCounter_ + " letter(s). ");
+            Console.Write("It took you " + roundTimeCounter_.ElapsedMilliseconds/1000 + " seconds. \n");
         }
         private static bool passwordValidator(string guess)
         {
