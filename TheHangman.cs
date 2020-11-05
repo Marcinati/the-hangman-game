@@ -18,7 +18,19 @@ namespace The_Hangman_Game
         {
             Console.Write("You have: " + currentLife_ + " chance(s). \n");
         }
-        public static void playARound()
+        public static void playAGame()
+        {
+            showDashes();
+            playARound();
+            Console.Write("Do you want to play again Y/N?\n");
+            var decision = Console.ReadLine();
+            if (decision.ToUpper() == "Y")
+            {
+                showDashes();
+                playARound();
+            }
+        }
+        private static void playARound()
         {
             while (currentLife_ > 0)
             {
