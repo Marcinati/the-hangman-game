@@ -7,25 +7,6 @@ namespace The_Hangman_Game
     public class TheHangman
     {
         static int startLifeValue = 5;
-        public static int getCurrentLife()
-        {
-            return currentLife_;
-        }
-        public static string findAWordToGuess()
-        {            
-            var words = new Dictionary<string, string>(){
-            {"Albania", "Tirana"},
-            {"Belarus", "Minsk"},
-            {"Croatia", "Zagreb"},
-            {"Denmark", "Copenhagen"},
-            {"Estonia", "Tallinn"}   
-            };
-            var rnd = new Random();
-            var randomWord = words.ElementAt(rnd.Next(0, words.Count));
-            string randomKey = randomWord.Key;
-            string randomValue = randomWord.Value;
-            return randomWord.Value;
-        }
         public static void showDashes()
         {
             string dash = "_ ";
@@ -45,6 +26,21 @@ namespace The_Hangman_Game
                 showLife();
             }
         }
+        private static string findAWordToGuess()
+        {
+            var words = new Dictionary<string, string>(){
+            {"Albania", "Tirana"},
+            {"Belarus", "Minsk"},
+            {"Croatia", "Zagreb"},
+            {"Denmark", "Copenhagen"},
+            {"Estonia", "Tallinn"}
+            };
+            var rnd = new Random();
+            var randomWord = words.ElementAt(rnd.Next(0, words.Count));
+            string randomKey = randomWord.Key;
+            string randomValue = randomWord.Value;
+            return randomWord.Value;
+        }
         private static void askUserToGuessALetterOrAWord()
         {
             Console.Write("Do You want to guess a letter or a word? \n Type L - for letter, W - for word and press enter. \n");
@@ -56,7 +52,7 @@ namespace The_Hangman_Game
             if (decision.ToUpper() == "L" || decision.ToUpper() == "W")
             {
                 var guess = Console.ReadLine();
-                if(!passwordValidator(guess))
+                if (!passwordValidator(guess))
                 {
                     makeNotInAWordList(decision, guess);
                     --currentLife_;
@@ -66,14 +62,14 @@ namespace The_Hangman_Game
                     }
                     else
                     {
-                    Console.Write("You have lost a chance. Try again. \n");
+                        Console.Write("You have lost a chance. Try again. \n");
                     }
                 }
                 else
                 {
                     Console.Write("Nice shot. \n");
                 }
-            } 
+            }
             else
             {
                 Console.Write("Try again. \n");
@@ -88,7 +84,7 @@ namespace The_Hangman_Game
                 showNotInAWordList();
             }
         }
-        public static void showNotInAWordList()
+        private static void showNotInAWordList()
         {
             Console.Write("Not in a word: ");
             notInWord_.ForEach(Console.Write);
