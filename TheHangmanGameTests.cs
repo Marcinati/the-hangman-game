@@ -7,8 +7,8 @@ namespace The_Hangman_Game
         [Fact]
         public void CurrentLifeCounterShouldShowMaxLifeAtTheBegininngOfTheStage()
         {
-            int MaxLife = 5;
-            Assert.Equal(TheHangman.getCurrentLife(), MaxLife);
+            int maxLife = 5;
+            Assert.Equal(TheHangman.getCurrentLife(), maxLife);
         }
     }
 }
