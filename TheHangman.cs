@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace The_Hangman_Game
@@ -40,6 +41,7 @@ namespace The_Hangman_Game
         }
         private static void playARound()
         {
+            roundTimeCounter_.Start();
             showDashes();
             while (currentLife_ > 0)
             {
@@ -51,6 +53,7 @@ namespace The_Hangman_Game
                     break;
                 }
             }
+            roundTimeCounter_.Stop();
         }
         private static string findAWordToGuess()
         {
@@ -125,6 +128,7 @@ namespace The_Hangman_Game
         private static void showEndOfGameScreen()
         {
             Console.Write("Guessing count: " + guessingCounter_ + "\n");
+            Console.Write("Guessing time:  " + roundTimeCounter_.Elapsed + "\n");
         }
         private static bool passwordValidator(string guess)
         {
@@ -142,6 +146,7 @@ namespace The_Hangman_Game
         {
             currentLife_ = startLifeValue;
             guessingCounter_ = 0;
+            roundTimeCounter_ = new Stopwatch();
             currentWordToGuess_ = findAWordToGuess();
             temporaryWordToGuess_ = currentWordToGuess_;
             notInWord_.Clear();
@@ -151,5 +156,7 @@ namespace The_Hangman_Game
         private static string currentWordToGuess_ = findAWordToGuess();
         private static string temporaryWordToGuess_ = currentWordToGuess_;
         private static List<string> notInWord_ = new List<string>();
+        private static Stopwatch roundTimeCounter_ = new Stopwatch();
+
     }
 }
