@@ -26,10 +26,6 @@ namespace The_Hangman_Game
             string randomValue = randomWord.Value;
             return randomWord.Value;
         }
-        public static bool isUserGuessCorrect()
-        {
-            return currentWordToGuess_ == userGuess_;
-        }
         public static void showDashes()
         {
             string dash = "_ ";
@@ -37,32 +33,56 @@ namespace The_Hangman_Game
             string dashes = string.Join(dash, new string[multiplier + 1]);
             Console.Write("Password: " + dashes + "\n");
         }
-        public static string userGuess()
-        {
-            return userGuess_ = Console.ReadLine();
-        }
         public static void showLife()
         {
             Console.Write("You have: " + currentLife_ + " chance(s). \n");
         }
-        public static void askUserToGuessALetterOrAWord()
+        public static void playARound()
+        {
+            while (currentLife_ > 0)
+            {
+                askUserToGuessALetterOrAWord();
+            }
+        }
+        private static void askUserToGuessALetterOrAWord()
         {
             Console.Write("Do You want to guess a letter or a word? \n Type L - for letter, W - for word and press enter. \n");
             var decision = Console.ReadLine();
-            if (decision == "L")
+            makeDecision(decision);
+        }
+        private static void makeDecision(string decision)
+        {
+            if (decision.ToUpper() == "L" || decision.ToUpper() == "W")
             {
-               // guessLetter();
-            }
-            if (decision == "W") 
-            {
-               // guessWord();
-            } else
+                var guess = Console.ReadLine();
+                if(!passwordValidator(guess))
+                {
+                    --currentLife_;
+                    if (currentLife_ == 0)
+                    {
+                        Console.Write("Game over!\n");
+                    }
+                    else
+                    {
+                    Console.Write("You have lost a chance. Try again. \n");
+                    }
+                }
+                else
+                {
+                    Console.Write("Nice shot. \n");
+                }
+            } 
+            else
             {
                 Console.Write("Try again. \n");
             }
         }
+        private static bool passwordValidator(string guess)
+        {
+            return guess == currentWordToGuess_ || currentWordToGuess_.Contains(guess);
+        }
         private static int currentLife_ = startLifeValue;
         private static string currentWordToGuess_ = findAWordToGuess();
-        private static string userGuess_;
+        private static string temporaryWordToGuess_ = currentWordToGuess_;
     }
 }
