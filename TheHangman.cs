@@ -21,6 +21,7 @@ namespace The_Hangman_Game
         public static void playAGame()
         {
             playARound();
+            showEndOfGameScreen();
             while(true)
             {
                 Console.Write("Do you want to play again Y/N?\n");
@@ -77,6 +78,7 @@ namespace The_Hangman_Game
             if (decision.ToUpper() == "L" || decision.ToUpper() == "W")
             {
                 var guess = Console.ReadLine().ToUpper();
+                ++guessingCounter_;
                 if (checkUltimateWin(guess))
                 {
                     temporaryWordToGuess_ = "";
@@ -97,7 +99,7 @@ namespace The_Hangman_Game
                 }
                 else
                 {
-                    temporaryWordToGuess_ = temporaryWordToGuess_.Replace(guess, "");
+                    temporaryWordToGuess_ = temporaryWordToGuess_.Replace(guess, ""); //guess can't be equal ""
                     Console.Write("Nice shot. \n");
                 }
             }
@@ -120,6 +122,10 @@ namespace The_Hangman_Game
             notInWord_.ForEach(Console.Write);
             Console.Write("\n");
         }
+        private static void showEndOfGameScreen()
+        {
+            Console.Write("Guessing count: " + guessingCounter_ + "\n");
+        }
         private static bool passwordValidator(string guess)
         {
             return guess == currentWordToGuess_ || currentWordToGuess_.Contains(guess);
@@ -135,11 +141,13 @@ namespace The_Hangman_Game
         private static void resetGame()
         {
             currentLife_ = startLifeValue;
+            guessingCounter_ = 0;
             currentWordToGuess_ = findAWordToGuess();
             temporaryWordToGuess_ = currentWordToGuess_;
             notInWord_.Clear();
         }
         private static int currentLife_ = startLifeValue;
+        private static int guessingCounter_ = 0;
         private static string currentWordToGuess_ = findAWordToGuess();
         private static string temporaryWordToGuess_ = currentWordToGuess_;
         private static List<string> notInWord_ = new List<string>();
