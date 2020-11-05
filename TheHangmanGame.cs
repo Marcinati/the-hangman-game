@@ -9,6 +9,9 @@ namespace The_Hangman_Game
             Console.Title = "The_Hangman_Game";
             Console.ForegroundColor = ConsoleColor.Green;
 
+            TheHangman.showDashes();
+            TheHangman.showLife();
+
             Console.ReadLine();
         }
         

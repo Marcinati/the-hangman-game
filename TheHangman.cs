@@ -22,15 +22,31 @@ namespace The_Hangman_Game
             };
             var rnd = new Random();
             var randomWord = words.ElementAt(rnd.Next(0, words.Count));
-            String randomKey = randomWord.Key;
-            String randomValue = randomWord.Value;
+            string randomKey = randomWord.Key;
+            string randomValue = randomWord.Value;
             return randomWord.Value;
         }
-        public static bool isUserGuessCorrect(string userGuess)
+        public static bool isUserGuessCorrect()
         {
-            return currentWordToGuess_ == userGuess;
+            return currentWordToGuess_ == userGuess_;
+        }
+        public static void showDashes()
+        {
+            string dash = "_ ";
+            int multiplier = currentWordToGuess_.Length;
+            string dashes = string.Join(dash, new string[multiplier + 1]);
+            Console.Write("Password: " + dashes + "\n");
+        }
+        public static string userGuess()
+        {
+            return userGuess_ = Console.ReadLine();
+        }
+        public static void showLife()
+        {
+            Console.Write("You have: " + currentLife_ + " chance(s). \n");
         }
         private static int currentLife_ = startLifeValue;
         private static string currentWordToGuess_ = findAWordToGuess();
+        private static string userGuess_;
     }
 }
