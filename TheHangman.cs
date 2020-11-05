@@ -42,6 +42,7 @@ namespace The_Hangman_Game
             while (currentLife_ > 0)
             {
                 askUserToGuessALetterOrAWord();
+                showNotInAWordList();
             }
         }
         private static void askUserToGuessALetterOrAWord()
@@ -57,6 +58,7 @@ namespace The_Hangman_Game
                 var guess = Console.ReadLine();
                 if(!passwordValidator(guess))
                 {
+                    makeNotInAWordList(decision, guess);
                     --currentLife_;
                     if (currentLife_ == 0)
                     {
@@ -77,6 +79,20 @@ namespace The_Hangman_Game
                 Console.Write("Try again. \n");
             }
         }
+        private static void makeNotInAWordList(string decision, string guess)
+        {
+            if (decision.ToUpper() == "L" && !notInWord_.Contains(guess))
+            {
+                notInWord_.Add(guess.ToUpper());
+                notInWord_.Sort();
+            }
+        }
+        public static void showNotInAWordList()
+        {
+            Console.Write("Not in a word: ");
+            notInWord_.ForEach(Console.Write);
+            Console.Write("\n");
+        }
         private static bool passwordValidator(string guess)
         {
             return guess == currentWordToGuess_ || currentWordToGuess_.Contains(guess);
@@ -84,5 +100,6 @@ namespace The_Hangman_Game
         private static int currentLife_ = startLifeValue;
         private static string currentWordToGuess_ = findAWordToGuess();
         private static string temporaryWordToGuess_ = currentWordToGuess_;
+        private static List<string> notInWord_ = new List<string>();
     }
 }
