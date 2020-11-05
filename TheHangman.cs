@@ -24,16 +24,21 @@ namespace The_Hangman_Game
             {
                 askUserToGuessALetterOrAWord();
                 showLife();
+                if (winConditions())
+                {
+                    Console.Write("Congratulations! You won.\n");
+                    break;
+                }
             }
         }
         private static string findAWordToGuess()
         {
             var words = new Dictionary<string, string>(){
-            {"Albania", "Tirana"},
-            {"Belarus", "Minsk"},
-            {"Croatia", "Zagreb"},
-            {"Denmark", "Copenhagen"},
-            {"Estonia", "Tallinn"}
+            {"Albania", "TIRANA"},
+            {"Belarus", "MINSK"},
+            {"Croatia", "ZAGREB"},
+            {"Denmark", "COPENHAGEN"},
+            {"Estonia", "TALLINN"}
             };
             var rnd = new Random();
             var randomWord = words.ElementAt(rnd.Next(0, words.Count));
@@ -51,7 +56,11 @@ namespace The_Hangman_Game
         {
             if (decision.ToUpper() == "L" || decision.ToUpper() == "W")
             {
-                var guess = Console.ReadLine();
+                var guess = Console.ReadLine().ToUpper();
+                if (checkUltimateWin(guess))
+                {
+                    temporaryWordToGuess_ = "";
+                }
                 if (!passwordValidator(guess))
                 {
                     makeNotInAWordList(decision, guess);
@@ -94,6 +103,10 @@ namespace The_Hangman_Game
         private static bool passwordValidator(string guess)
         {
             return guess == currentWordToGuess_ || currentWordToGuess_.Contains(guess);
+        }
+        private static bool checkUltimateWin(string guess)
+        {
+            return guess == currentWordToGuess_;
         }
         private static bool winConditions()
         {
