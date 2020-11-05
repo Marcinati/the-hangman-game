@@ -46,12 +46,13 @@ namespace The_Hangman_Game
         }        
         private static string findAWordToGuess()
         {      
+            
             var words = new Dictionary<string, string>(){
-            {"Albania", "TIRANA"},
-            {"Belarus", "MINSK"},
-            {"Croatia", "ZAGREB"},
-            {"Denmark", "COPENHAGEN"},
-            {"Estonia", "TALLINN"}
+            {"Albania", "Tirana"},
+            {"Belarus", "Minsk"},
+            {"Croatia", "Zagreb"},
+            {"Denmark", "Copenhagen"},
+            {"Estonia", "Tallinn"}
             };
             var rnd = new Random();
             var randomWord = words.ElementAt(rnd.Next(0, words.Count));
@@ -72,6 +73,7 @@ namespace The_Hangman_Game
                 {
                     Console.Write("Congratulations! You won.\n");
                     showEndOfGameScreen();
+                    addAHighScore();
                     break;
                 }
             }
@@ -159,6 +161,19 @@ namespace The_Hangman_Game
         private static bool winConditions()
         {
             return temporaryWordToGuess_ == "";
+        }
+        private static void addAHighScore()
+        {
+            Console.WriteLine("Do you want to be on hall of fame? Y/N\n");
+            if (Console.ReadLine().ToUpper() == "Y")
+            {
+                Console.WriteLine("Please, give me your name.\n");
+                var name = Console.ReadLine();
+                string path = "high_score.txt";
+                StreamWriter writer = new StreamWriter(path);
+                writer.WriteLine(name + " | " + DateTime.Now.ToString() + " | " + roundTimeCounter_.ElapsedMilliseconds/1000 + "s | " + guessingCounter_ + " | " + currentWordToGuess_);
+                writer.Close();
+            }
         }
         private static void resetGame()
         {
