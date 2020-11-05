@@ -11,6 +11,7 @@ namespace The_Hangman_Game
 
             TheHangman.showDashes();
             TheHangman.showLife();
+            TheHangman.askUserToGuessALetterOrAWord();
 
             Console.ReadLine();
         }

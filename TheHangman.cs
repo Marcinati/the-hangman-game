@@ -45,6 +45,22 @@ namespace The_Hangman_Game
         {
             Console.Write("You have: " + currentLife_ + " chance(s). \n");
         }
+        public static void askUserToGuessALetterOrAWord()
+        {
+            Console.Write("Do You want to guess a letter or a word? \n Type L - for letter, W - for word and press enter. \n");
+            var decision = Console.ReadLine();
+            if (decision == "L")
+            {
+               // guessLetter();
+            }
+            if (decision == "W") 
+            {
+               // guessWord();
+            } else
+            {
+                Console.Write("Try again. \n");
+            }
+        }
         private static int currentLife_ = startLifeValue;
         private static string currentWordToGuess_ = findAWordToGuess();
         private static string userGuess_;
