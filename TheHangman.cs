@@ -21,12 +21,21 @@ namespace The_Hangman_Game
         public static void playAGame()
         {
             playARound();
-            Console.Write("Do you want to play again Y/N?\n");
-            var decision = Console.ReadLine();
-            if (decision.ToUpper() == "Y")
+            while(true)
             {
-                playARound();
+                Console.Write("Do you want to play again Y/N?\n");
+                var decision = Console.ReadLine();
+                if (decision.ToUpper() == "Y")
+                {
+                    resetGame();
+                    playARound();
+                }
+                else
+                {
+                    break;
+                }
             }
+
         }
         private static void playARound()
         {
@@ -122,6 +131,13 @@ namespace The_Hangman_Game
         private static bool winConditions()
         {
             return temporaryWordToGuess_ == "";
+        }
+        private static void resetGame()
+        {
+            currentLife_ = startLifeValue;
+            currentWordToGuess_ = findAWordToGuess();
+            temporaryWordToGuess_ = currentWordToGuess_;
+            notInWord_.Clear();
         }
         private static int currentLife_ = startLifeValue;
         private static string currentWordToGuess_ = findAWordToGuess();
