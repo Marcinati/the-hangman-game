@@ -17,6 +17,8 @@ namespace The_Hangman_Game
         static string recordSeparator = " | ";
         public static void playAGame()
         {
+            showHelloScreen();
+            Console.ReadKey();
             do
             {
                 Console.Clear();
@@ -33,6 +35,10 @@ namespace The_Hangman_Game
             string dash = "_ ";
             int multiplier = currentWordToGuess_.Length;
             return string.Join(dash, new string[multiplier + 1]);
+        }
+        private static void showHelloScreen()
+        {
+            Console.Write("Welcome in the Hangman Game. Press enter to continue...");
         }
         private static void showAHint()
         {
