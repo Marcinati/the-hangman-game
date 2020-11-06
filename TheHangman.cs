@@ -10,6 +10,7 @@ namespace The_Hangman_Game
     {
         static int startLifeValue = 5;
         static int numberOflinesInFile = 183;
+        static int numberOfBestPlayers = 10;
         static string guessFilePath = "countries_and_capitals.txt.txt";
         static string tempHighScorePath = "temp_high_score.txt";
         static string highScorePath = "high_score.txt";
@@ -19,6 +20,7 @@ namespace The_Hangman_Game
             do
             {
                 playARound();
+                showTheBestPlayers();
                 resetGame();
                 Console.Write("Do you want to play again Y/N?\n");
             }
@@ -50,14 +52,29 @@ namespace The_Hangman_Game
             notInWord_.ForEach(Console.Write);
             Console.Write("\n");
         }
+        private static void showTheBestPlayers()
+        {
+            if(File.Exists(highScorePath))
+            {
+                StreamReader reader = new StreamReader(highScorePath);
+                Console.WriteLine("Win factor" + recordSeparator + "Name" + recordSeparator
+                                    + "Date" + recordSeparator
+                                    + "Round time [s]" + recordSeparator
+                                    + "Trials" + recordSeparator + "Word");
+                while (reader.Peek() >= 0)
+                {
+                    Console.WriteLine(reader.ReadLine());
+                }
+                reader.Close();
+            }
+        }
         private static void showWordAfterGuessing()
         {        
             Console.Write(temporaryWordAfterGuessing_ + "\n");
         }        
         private static string findAWordToGuess()
         {      
-            string path = guessFilePath;
-            StreamReader reader = new StreamReader(path);
+            StreamReader reader = new StreamReader(guessFilePath);
             var rnd = new Random();
             int numberOfRandomLine = rnd.Next(0, numberOflinesInFile - 1);
             int tempLineNumber = 0;
@@ -197,10 +214,13 @@ namespace The_Hangman_Game
         }
         private static void highScoreValidator()
         {
-            var contents = File.ReadAllLines(tempHighScorePath);
-            Array.Sort(contents);
-            Array.Resize(ref contents, 10);
-            File.WriteAllLines(highScorePath, contents);
+            if(File.Exists(tempHighScorePath))
+            {
+                var contents = File.ReadAllLines(tempHighScorePath);
+                Array.Sort(contents);
+                Array.Resize(ref contents, numberOfBestPlayers);
+                File.WriteAllLines(highScorePath, contents);
+            }
         }
         private static double countWinFactor()
         {
