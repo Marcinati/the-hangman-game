@@ -9,6 +9,8 @@ namespace The_Hangman_Game
     public class TheHangman
     {
         static int startLifeValue = 5;
+        static int numberOflinesInFile = 183;
+        static string recordSeparator = " | ";
         public static void playAGame()
         {
             do
@@ -16,7 +18,8 @@ namespace The_Hangman_Game
                 playARound();
                 resetGame();
                 Console.Write("Do you want to play again Y/N?\n");
-            } while (Console.ReadLine().ToUpper() == "Y");
+            }
+            while (Console.ReadLine().ToUpper() == "Y");
         }
 
         private static string dashes()
@@ -42,24 +45,27 @@ namespace The_Hangman_Game
         }
         private static void showWordAfterGuessing()
         {        
-            Console.Write("The capitol of the " + currentCapital_ + " is " + temporaryWordAfterGuessing_ + "\n");
+            Console.Write("The capitol of the " + currentState_ + " is " + temporaryWordAfterGuessing_ + "\n");
         }        
         private static string findAWordToGuess()
         {      
-            
-            var words = new Dictionary<string, string>(){
-            {"Albania", "Tirana"},
-            {"Belarus", "Minsk"},
-            {"Croatia", "Zagreb"},
-            {"Denmark", "Copenhagen"},
-            {"Estonia", "Tallinn"}
-            };
+            string path = "countries_and_capitals.txt.txt";
+            StreamReader reader = new StreamReader(path);
             var rnd = new Random();
-            var randomWord = words.ElementAt(rnd.Next(0, words.Count));
-            string randomKey = randomWord.Key;
-            currentCapital_ = randomKey;
-            string randomValue = randomWord.Value;
-            return randomWord.Value;
+            int numberOfRandomLine = rnd.Next(0, numberOflinesInFile - 1);
+            int tempLineNumber = 0;
+            while (tempLineNumber != numberOfRandomLine) {
+                ++tempLineNumber;
+                var tempLine = reader.ReadLine();
+                if (tempLineNumber == numberOfRandomLine)
+                {
+                    string [] split = tempLine.Split(new Char [] {'|'});
+                    currentState_ = split[0].Trim(' ').ToUpper();
+                    currentWordToGuess_ = split[1].Trim(' ').ToUpper();
+                }
+            }
+            reader.Close();
+            return currentWordToGuess_;
         }
         private static void playARound()
         {
@@ -164,14 +170,15 @@ namespace The_Hangman_Game
         }
         private static void addAHighScore()
         {
-            Console.WriteLine("Do you want to be on hall of fame? Y/N\n");
+            Console.WriteLine("Do you want to be in Hall of Fame? Y/N\n");
             if (Console.ReadLine().ToUpper() == "Y")
             {
                 Console.WriteLine("Please, give me your name.\n");
                 var name = Console.ReadLine();
                 string path = "high_score.txt";
                 StreamWriter writer = new StreamWriter(path);
-                writer.WriteLine(name + " | " + DateTime.Now.ToString() + " | " + roundTimeCounter_.ElapsedMilliseconds/1000 + "s | " + guessingCounter_ + " | " + currentWordToGuess_);
+                writer.WriteLine(name + recordSeparator + DateTime.Now.ToString() + recordSeparator + roundTimeCounter_.ElapsedMilliseconds/1000 + "s"
+                               + recordSeparator + guessingCounter_ + recordSeparator + currentWordToGuess_);
                 writer.Close();
             }
         }
@@ -187,7 +194,7 @@ namespace The_Hangman_Game
         }
         private static int currentLife_ = startLifeValue;
         private static int guessingCounter_ = 0;
-        private static string currentCapital_;
+        private static string currentState_;
         private static string currentWordToGuess_ = findAWordToGuess();
         private static string temporaryWordToGuess_ = currentWordToGuess_;
         private static string temporaryWordAfterGuessing_ = dashes();
