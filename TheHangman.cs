@@ -57,10 +57,10 @@ namespace The_Hangman_Game
             if(File.Exists(highScorePath))
             {
                 StreamReader reader = new StreamReader(highScorePath);
-                Console.WriteLine("Win factor" + recordSeparator + "Name" + recordSeparator
-                                    + "Date" + recordSeparator
-                                    + "Round time [s]" + recordSeparator
-                                    + "Trials" + recordSeparator + "Word");
+                Console.WriteLine("Factor" + recordSeparator + "Name" + recordSeparator
+                                + "Date" + recordSeparator
+                                + "Round time [s]" + recordSeparator
+                                + "Trials" + recordSeparator + "Word");
                 while (reader.Peek() >= 0)
                 {
                     Console.WriteLine(reader.ReadLine());
@@ -226,7 +226,7 @@ namespace The_Hangman_Game
         {
             double counter = guessingCounter_;
             double timer = roundTimeCounter_.ElapsedMilliseconds/1000;
-            return counter / timer;
+            return Math.Round(counter / timer, 3);
         }
         private static void resetGame()
         {
