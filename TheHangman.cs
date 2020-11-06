@@ -28,6 +28,10 @@ namespace The_Hangman_Game
             int multiplier = currentWordToGuess_.Length;
             return string.Join(dash, new string[multiplier + 1]);
         }
+        private static void showAHint()
+        {
+            Console.Write("HINT: The capitol of " + currentState_ + "\n");
+        }
         private static void showEndOfGameScreen()
         {
             Console.Write("You guessed the capital after " + guessingCounter_ + " letter(s). ");
@@ -45,7 +49,7 @@ namespace The_Hangman_Game
         }
         private static void showWordAfterGuessing()
         {        
-            Console.Write("The capitol of the " + currentState_ + " is " + temporaryWordAfterGuessing_ + "\n");
+            Console.Write(temporaryWordAfterGuessing_ + "\n");
         }        
         private static string findAWordToGuess()
         {      
