@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 namespace The_Hangman_Game
 {
@@ -23,9 +22,10 @@ namespace The_Hangman_Game
             {
                 Console.Clear();
                 playARound();
+                Console.Clear();
                 showTheBestPlayers();
                 resetGame();
-                Console.Write("Do you want to play again Y/N?\n");
+                Console.Write("Do You want to play again Y/N?\n");
             }
             while (Console.ReadLine().ToUpper() == "Y");
         }
@@ -76,8 +76,20 @@ namespace The_Hangman_Game
             }
         }
         private static void showWordAfterGuessing()
-        {        
-            Console.Write(temporaryWordAfterGuessing_ + "\n");
+        {   
+            if (tempCleaningWordToGuess_ == "")
+            {
+                tempDisplayingGuessingWord_ = currentWordToGuess_;
+            }
+            else
+            {
+                tempDisplayingGuessingWord_ = currentWordToGuess_;
+                if (tempDisplayingGuessingWord_.Contains(tempGuess_))
+                {
+                    tempDisplayingGuessingWord_.Replace(tempGuess_, "_");
+                }
+            }     
+            Console.Write(tempDisplayingGuessingWord_ + "\n");
         }        
         private static string findAWordToGuess()
         {      
@@ -105,6 +117,7 @@ namespace The_Hangman_Game
             while (currentLife_ > 0)
             {
                 askUserToGuessALetterOrAWord();
+                showWordAfterGuessing();
                 showLife();
                 if (currentLife_ == 1)
                 {
@@ -112,6 +125,7 @@ namespace The_Hangman_Game
                 }
                 if (winConditions())
                 {
+                    Console.Clear();
                     Console.Write("Congratulations! You won.\n");
                     showEndOfGameScreen();
                     addAHighScore();
@@ -153,7 +167,11 @@ namespace The_Hangman_Game
                 }
                 else
                 {
-                    temporaryWordToGuess_ = temporaryWordToGuess_.Replace(guess, ""); //guess can't be equal ""
+                    if (tempCleaningWordToGuess_.Contains(tempGuess_))
+                    {
+                        tempCleaningWordToGuess_ = tempCleaningWordToGuess_.Replace(tempGuess_, "");
+                    }  
+                    Console.Clear();          
                     Console.Write("Nice shot. \n");
                 }
         }
@@ -170,6 +188,7 @@ namespace The_Hangman_Game
         }
         private static void decrementLifeAndCheckCondition()
         {
+            Console.Clear();
             if (currentLife_ == 0)
             {
                 Console.Write("Game over!\n");
@@ -196,16 +215,16 @@ namespace The_Hangman_Game
         {
             if (guess == currentWordToGuess_)
             {
-                temporaryWordToGuess_ = "";
+                tempCleaningWordToGuess_ = "";
             }
         }
         private static bool winConditions()
         {
-            return temporaryWordToGuess_ == "";
+            return tempCleaningWordToGuess_ == "";
         }
         private static void addAHighScore()
         {
-            Console.WriteLine("Do you want to be in Hall of Fame? Y/N\n");
+            Console.WriteLine("Do You want to be in Hall of Fame? Y/N\n");
             if (Console.ReadLine().ToUpper() == "Y")
             {
                 Console.WriteLine("Please, give me your name.\n");
@@ -241,16 +260,17 @@ namespace The_Hangman_Game
             guessingCounter_ = 0;
             roundTimeCounter_ = new Stopwatch();
             currentWordToGuess_ = findAWordToGuess();
-            temporaryWordToGuess_ = currentWordToGuess_;
-            temporaryWordAfterGuessing_ = dashes();
+            tempCleaningWordToGuess_ = currentWordToGuess_;
+            tempDisplayingGuessingWord_ = dashes();
             notInWord_.Clear();
         }
         private static int currentLife_ = startLifeValue;
         private static int guessingCounter_ = 0;
         private static string currentState_;
         private static string currentWordToGuess_ = findAWordToGuess();
-        private static string temporaryWordToGuess_ = currentWordToGuess_;
-        private static string temporaryWordAfterGuessing_ = dashes();
+        private static string tempCleaningWordToGuess_ = currentWordToGuess_;
+        private static string tempDisplayingGuessingWord_ = dashes();
+        private static string tempGuess_ = " ";
         private static List<string> notInWord_ = new List<string>();
         private static Stopwatch roundTimeCounter_ = new Stopwatch();
     }

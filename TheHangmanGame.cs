@@ -10,8 +10,6 @@ namespace The_Hangman_Game
             Console.ForegroundColor = ConsoleColor.Green;
 
             TheHangman.playAGame();
-
-            Console.ReadLine();
         }
         
     }
