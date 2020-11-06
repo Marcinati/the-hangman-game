@@ -10,6 +10,8 @@ namespace The_Hangman_Game
     {
         static int startLifeValue = 5;
         static int numberOflinesInFile = 183;
+        static string guessFilePath = "countries_and_capitals.txt.txt";
+        static string highScorePath = "high_score.txt";
         static string recordSeparator = " | ";
         public static void playAGame()
         {
@@ -53,7 +55,7 @@ namespace The_Hangman_Game
         }        
         private static string findAWordToGuess()
         {      
-            string path = "countries_and_capitals.txt.txt";
+            string path = guessFilePath;
             StreamReader reader = new StreamReader(path);
             var rnd = new Random();
             int numberOfRandomLine = rnd.Next(0, numberOflinesInFile - 1);
@@ -183,7 +185,7 @@ namespace The_Hangman_Game
             {
                 Console.WriteLine("Please, give me your name.\n");
                 var name = Console.ReadLine();
-                string path = "high_score.txt";
+                string path = highScorePath;
                 StreamWriter writer = new StreamWriter(path);
                 writer.WriteLine(name + recordSeparator + DateTime.Now.ToString() + recordSeparator + roundTimeCounter_.ElapsedMilliseconds/1000 + "s"
                                + recordSeparator + guessingCounter_ + recordSeparator + currentWordToGuess_);
