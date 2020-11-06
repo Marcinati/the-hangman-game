@@ -19,6 +19,7 @@ namespace The_Hangman_Game
         {
             do
             {
+                Console.Clear();
                 playARound();
                 showTheBestPlayers();
                 resetGame();
