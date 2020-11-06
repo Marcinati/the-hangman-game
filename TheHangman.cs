@@ -11,6 +11,7 @@ namespace The_Hangman_Game
         static int startLifeValue = 5;
         static int numberOflinesInFile = 183;
         static string guessFilePath = "countries_and_capitals.txt.txt";
+        static string tempHighScorePath = "temp_high_score.txt";
         static string highScorePath = "high_score.txt";
         static string recordSeparator = " | ";
         public static void playAGame()
@@ -185,11 +186,25 @@ namespace The_Hangman_Game
             {
                 Console.WriteLine("Please, give me your name.\n");
                 var name = Console.ReadLine();
-                StreamWriter writer = File.AppendText(highScorePath);
-                writer.WriteLine(name + recordSeparator + DateTime.Now.ToString() + recordSeparator + roundTimeCounter_.ElapsedMilliseconds/1000 + "s"
-                                 + recordSeparator + guessingCounter_ + recordSeparator + currentWordToGuess_);
+                StreamWriter writer = File.AppendText(tempHighScorePath);
+                writer.WriteLine(countWinFactor() + name + recordSeparator + DateTime.Now.ToString() + recordSeparator
+                                 + roundTimeCounter_.ElapsedMilliseconds/1000 + "s" + recordSeparator
+                                 + guessingCounter_ + recordSeparator + currentWordToGuess_);
                 writer.Close();
+                highScoreValidator();
             }
+        }
+        private static void highScoreValidator()
+        {
+            string sourceFile = tempHighScorePath;
+            string outFile = highScorePath;
+            var contents = File.ReadAllLines(sourceFile);
+            Array.Sort(contents);
+            File.WriteAllLines(outFile, contents);
+        }
+        private static double countWinFactor()
+        {
+            return guessingCounter_ / roundTimeCounter_.ElapsedMilliseconds/1000;
         }
         private static void resetGame()
         {
