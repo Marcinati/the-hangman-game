@@ -185,10 +185,9 @@ namespace The_Hangman_Game
             {
                 Console.WriteLine("Please, give me your name.\n");
                 var name = Console.ReadLine();
-                string path = highScorePath;
-                StreamWriter writer = new StreamWriter(path);
+                StreamWriter writer = File.AppendText(highScorePath);
                 writer.WriteLine(name + recordSeparator + DateTime.Now.ToString() + recordSeparator + roundTimeCounter_.ElapsedMilliseconds/1000 + "s"
-                               + recordSeparator + guessingCounter_ + recordSeparator + currentWordToGuess_);
+                                 + recordSeparator + guessingCounter_ + recordSeparator + currentWordToGuess_);
                 writer.Close();
             }
         }
