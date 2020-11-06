@@ -185,6 +185,7 @@ ClientBin/
 *.publishsettings
 node_modules/
 orleans.codegen.cs
+high_score.txt
 
 # RIA/Silverlight projects
 Generated_Code/
