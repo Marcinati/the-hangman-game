@@ -187,7 +187,8 @@ namespace The_Hangman_Game
                 Console.WriteLine("Please, give me your name.\n");
                 var name = Console.ReadLine();
                 StreamWriter writer = File.AppendText(tempHighScorePath);
-                writer.WriteLine(countWinFactor() + name + recordSeparator + DateTime.Now.ToString() + recordSeparator
+                writer.WriteLine(countWinFactor().ToString() + recordSeparator + name + recordSeparator
+                                 + DateTime.Now.ToString() + recordSeparator
                                  + roundTimeCounter_.ElapsedMilliseconds/1000 + "s" + recordSeparator
                                  + guessingCounter_ + recordSeparator + currentWordToGuess_);
                 writer.Close();
@@ -196,15 +197,16 @@ namespace The_Hangman_Game
         }
         private static void highScoreValidator()
         {
-            string sourceFile = tempHighScorePath;
-            string outFile = highScorePath;
-            var contents = File.ReadAllLines(sourceFile);
+            var contents = File.ReadAllLines(tempHighScorePath);
             Array.Sort(contents);
-            File.WriteAllLines(outFile, contents);
+            Array.Resize(ref contents, 10);
+            File.WriteAllLines(highScorePath, contents);
         }
         private static double countWinFactor()
         {
-            return guessingCounter_ / roundTimeCounter_.ElapsedMilliseconds/1000;
+            double counter = guessingCounter_;
+            double timer = roundTimeCounter_.ElapsedMilliseconds/1000;
+            return counter / timer;
         }
         private static void resetGame()
         {
