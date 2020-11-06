@@ -79,6 +79,10 @@ namespace The_Hangman_Game
             {
                 askUserToGuessALetterOrAWord();
                 showLife();
+                if (currentLife_ == 1)
+                {
+                    showAHint();
+                }
                 if (winConditions())
                 {
                     Console.Write("Congratulations! You won.\n");
