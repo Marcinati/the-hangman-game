@@ -186,6 +186,10 @@ ClientBin/
 node_modules/
 orleans.codegen.cs
 
+# Hangman generates
+temp_high_score.txt
+high_score.txt
+
 # RIA/Silverlight projects
 Generated_Code/
 
