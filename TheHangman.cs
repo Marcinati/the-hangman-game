@@ -14,7 +14,6 @@ namespace The_Hangman_Game
         static string tempHighScorePath = "temp_high_score.txt";
         static string highScorePath = "high_score.txt";
         static string recordSeparator = " | ";
-        static string dash = "_ ";
         public static void playAGame()
         {
             showHelloScreen();
@@ -73,7 +72,16 @@ namespace The_Hangman_Game
         {   
             for (int i = 0; i < currentWordToGuess_.Length; ++i)
             {
-                Console.Write(tempDisplayingGuessingWord_[i]);
+                if (currentWordToGuess_[i].ToString() == tempGuess_.ToUpper())
+                {
+                    var putInDisplay = tempGuess_.ToCharArray();
+                    tempDisplayingGuessingWord_[i] = putInDisplay[0];
+                }
+            }
+            for (int j = 0; j < currentWordToGuess_.Length; ++j)
+            {
+                Console.Write(tempDisplayingGuessingWord_[j]);
+                Console.Write(' ');
             }
             Console.Write("\n");
         }        
@@ -144,27 +152,29 @@ namespace The_Hangman_Game
         private static void guessLetter()
         {
             var guess = Console.ReadLine().ToUpper();
-                ++guessingCounter_;
-                if (!passwordValidator(guess))
+            ++guessingCounter_;
+            tempGuess_ = guess;
+            if (!passwordValidator(guess))
+            {
+                makeNotInAWordList(guess);
+                showNotInAWordList();
+                decrementLifeAndCheckCondition();
+            }
+            else
+            {
+                if (tempCleaningWordToGuess_.Contains(tempGuess_))
                 {
-                    makeNotInAWordList(guess);
-                    showNotInAWordList();
-                    decrementLifeAndCheckCondition();
-                }
-                else
-                {
-                    if (tempCleaningWordToGuess_.Contains(tempGuess_))
-                    {
-                        tempCleaningWordToGuess_ = tempCleaningWordToGuess_.Replace(tempGuess_, "");
-                    }  
-                    Console.Clear();          
-                    Console.Write("Nice shot. \n");
-                }
+                    tempCleaningWordToGuess_ = tempCleaningWordToGuess_.Replace(tempGuess_, "");
+                }  
+                Console.Clear();          
+                Console.Write("Nice shot. \n");
+            }
         }
         private static void guessWord()
         {
             var guess = Console.ReadLine().ToUpper();
             ++guessingCounter_;
+            tempGuess_ = guess;
             checkUltimateWin(guess);
             if (!passwordValidator(guess))
             {
@@ -248,14 +258,25 @@ namespace The_Hangman_Game
             currentWordToGuess_ = findAWordToGuess();
             tempCleaningWordToGuess_ = currentWordToGuess_;
             notInWord_.Clear();
+            tempDisplayingGuessingWord_ = prepareDisplayWord();            
+        }
+        private static char[] prepareDisplayWord()
+        {
+            char[] displayDashes = new char[currentWordToGuess_.Length];
+            for (int i = 0; i < currentWordToGuess_.Length; ++i)
+            {
+                displayDashes[i] = '_';
+            }
+            return displayDashes;
         }
         private static int currentLife_ = startLifeValue;
         private static int guessingCounter_ = 0;
-        private static string currentState_;
+        private static string currentState_ = "";
         private static string currentWordToGuess_ = findAWordToGuess();
         private static string tempCleaningWordToGuess_ = currentWordToGuess_;
-        private static char[] tempDisplayingGuessingWord_ = currentWordToGuess_.ToCharArray(0, currentWordToGuess_.Length);
-        private static string tempGuess_ = " ";
+        private static char[] tempDisplayingGuessingWord_ = prepareDisplayWord();
+        private static char[] userShots_ = new char[50];
+        private static string tempGuess_ = "0";
         private static List<string> notInWord_ = new List<string>();
         private static Stopwatch roundTimeCounter_ = new Stopwatch();
     }
