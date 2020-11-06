@@ -14,6 +14,7 @@ namespace The_Hangman_Game
         static string tempHighScorePath = "temp_high_score.txt";
         static string highScorePath = "high_score.txt";
         static string recordSeparator = " | ";
+        static string dash = "_ ";
         public static void playAGame()
         {
             showHelloScreen();
@@ -28,13 +29,6 @@ namespace The_Hangman_Game
                 Console.Write("Do You want to play again Y/N?\n");
             }
             while (Console.ReadLine().ToUpper() == "Y");
-        }
-
-        private static string dashes()
-        {
-            string dash = "_ ";
-            int multiplier = currentWordToGuess_.Length;
-            return string.Join(dash, new string[multiplier + 1]);
         }
         private static void showHelloScreen()
         {
@@ -77,19 +71,11 @@ namespace The_Hangman_Game
         }
         private static void showWordAfterGuessing()
         {   
-            if (tempCleaningWordToGuess_ == "")
+            for (int i = 0; i < currentWordToGuess_.Length; ++i)
             {
-                tempDisplayingGuessingWord_ = currentWordToGuess_;
+                Console.Write(tempDisplayingGuessingWord_[i]);
             }
-            else
-            {
-                tempDisplayingGuessingWord_ = currentWordToGuess_;
-                if (tempDisplayingGuessingWord_.Contains(tempGuess_))
-                {
-                    tempDisplayingGuessingWord_.Replace(tempGuess_, "_");
-                }
-            }     
-            Console.Write(tempDisplayingGuessingWord_ + "\n");
+            Console.Write("\n");
         }        
         private static string findAWordToGuess()
         {      
@@ -126,7 +112,7 @@ namespace The_Hangman_Game
                 if (winConditions())
                 {
                     Console.Clear();
-                    Console.Write("Congratulations! You won.\n");
+                    Console.Write("Congratulations! You won. That was a " + currentWordToGuess_ + ". \n");
                     showEndOfGameScreen();
                     addAHighScore();
                     break;
@@ -261,7 +247,6 @@ namespace The_Hangman_Game
             roundTimeCounter_ = new Stopwatch();
             currentWordToGuess_ = findAWordToGuess();
             tempCleaningWordToGuess_ = currentWordToGuess_;
-            tempDisplayingGuessingWord_ = dashes();
             notInWord_.Clear();
         }
         private static int currentLife_ = startLifeValue;
@@ -269,7 +254,7 @@ namespace The_Hangman_Game
         private static string currentState_;
         private static string currentWordToGuess_ = findAWordToGuess();
         private static string tempCleaningWordToGuess_ = currentWordToGuess_;
-        private static string tempDisplayingGuessingWord_ = dashes();
+        private static char[] tempDisplayingGuessingWord_ = currentWordToGuess_.ToCharArray(0, currentWordToGuess_.Length);
         private static string tempGuess_ = " ";
         private static List<string> notInWord_ = new List<string>();
         private static Stopwatch roundTimeCounter_ = new Stopwatch();
