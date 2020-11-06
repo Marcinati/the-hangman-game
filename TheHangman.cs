@@ -7,13 +7,14 @@ namespace The_Hangman_Game
 {
     public class TheHangman
     {
-        static int startLifeValue = 5;
-        static int numberOflinesInFile = 183;
-        static int numberOfBestPlayers = 10;
-        static string guessFilePath = "countries_and_capitals.txt.txt";
-        static string tempHighScorePath = "temp_high_score.txt";
-        static string highScorePath = "high_score.txt";
-        static string recordSeparator = " | ";
+        const int startLifeValue = 5;
+        const int numberOfBestPlayers = 10;
+        const int numberOflinesInFile = 183;
+        const string guessFilePath = "countries_and_capitals.txt.txt";
+        const string highScorePath = "high_score.txt";
+        const string tempHighScorePath = "temp_high_score.txt";
+        const string recordSeparator = " | ";
+
         public static void playAGame()
         {
             showHelloScreen();
@@ -72,6 +73,10 @@ namespace The_Hangman_Game
         {   
             for (int i = 0; i < currentWordToGuess_.Length; ++i)
             {
+                if (currentWordToGuess_[i] == ' ')
+                {
+                    tempDisplayingGuessingWord_[i] = ' ';
+                }
                 if (currentWordToGuess_[i].ToString() == tempGuess_.ToUpper())
                 {
                     var putInDisplay = tempGuess_.ToCharArray();
