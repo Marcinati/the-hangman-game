@@ -32,7 +32,7 @@ namespace The_Hangman_Game
         }
         private static void showHelloScreen()
         {
-            Console.Write("Welcome in the Hangman Game. Press enter to continue...");
+            Console.Write("Welcome in the Hangman Game. Press any button to continue...");
         }
         private static void showAHint()
         {
