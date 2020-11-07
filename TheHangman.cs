@@ -112,11 +112,10 @@ namespace The_Hangman_Game
         private static void playARound()
         {
             roundTimeCounter_.Start();
-            showWordAfterGuessing();
             while (currentLife_ > 0)
             {
-                askUserToGuessALetterOrAWord();
                 showWordAfterGuessing();
+                askUserToGuessALetterOrAWord();
                 showNotInAWordList();
                 showLife();
                 if (currentLife_ == 1)
