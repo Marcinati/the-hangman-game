@@ -7,13 +7,14 @@ namespace The_Hangman_Game
 {
     public class TheHangman
     {
-        const int startLifeValue = 5;
-        const int numberOfBestPlayers = 10;
-        const int numberOflinesInFile = 183;
         const string guessFilePath = "countries_and_capitals.txt.txt";
         const string highScorePath = "high_score.txt";
         const string tempHighScorePath = "temp_high_score.txt";
         const string recordSeparator = " | ";
+        const int numberOfBestPlayers = 10;
+        const int numberOfLinesInGuessFile = 183;
+        const int roundingWinFactor = 3;
+        const int startLifeValue = 5;
 
         public static void playAGame()
         {
@@ -32,7 +33,7 @@ namespace The_Hangman_Game
         }
         private static void showHelloScreen()
         {
-            Console.Write("Welcome in the Hangman Game. Press enter to continue...");
+            Console.Write("Welcome in the Hangman Game. Press any button to continue...");
         }
         private static void showAHint()
         {
@@ -77,7 +78,7 @@ namespace The_Hangman_Game
                 {
                     tempDisplayingGuessingWord_[i] = ' ';
                 }
-                if (currentWordToGuess_[i].ToString() == tempGuess_.ToUpper())
+                if (currentWordToGuess_[i].ToString() == tempGuess_)
                 {
                     var putInDisplay = tempGuess_.ToCharArray();
                     tempDisplayingGuessingWord_[i] = putInDisplay[0];
@@ -94,7 +95,7 @@ namespace The_Hangman_Game
         {      
             StreamReader reader = new StreamReader(guessFilePath);
             var rnd = new Random();
-            int numberOfRandomLine = rnd.Next(0, numberOflinesInFile - 1);
+            int numberOfRandomLine = rnd.Next(0, numberOfLinesInGuessFile - 1);
             int tempLineNumber = 0;
             while (tempLineNumber != numberOfRandomLine) {
                 ++tempLineNumber;
@@ -112,11 +113,10 @@ namespace The_Hangman_Game
         private static void playARound()
         {
             roundTimeCounter_.Start();
-            showWordAfterGuessing();
             while (currentLife_ > 0)
             {
-                askUserToGuessALetterOrAWord();
                 showWordAfterGuessing();
+                askUserToGuessALetterOrAWord();
                 showNotInAWordList();
                 showLife();
                 if (currentLife_ == 1)
@@ -136,29 +136,29 @@ namespace The_Hangman_Game
         }
         private static void askUserToGuessALetterOrAWord()
         {
-            Console.Write("Do You want to guess a letter or a word? \n>>>Type L - for letter, W - for word and press enter. \n");
-            var decision = Console.ReadLine();
+            Console.Write("Do You want to guess a letter or a word? \n>>>Type L - for letter, W - for word and press enter.\n");
+            char decision = Console.ReadLine().ToUpper()[0];
             pickDecision(decision);
         }
-        private static void pickDecision(string decision)
+        private static void pickDecision(char decision)
         {
-            if (decision.ToUpper() == "L")
+            if (decision == 'L')
             {
                 guessLetter();
             }
-            if (decision.ToUpper() == "W")
+            if (decision == 'W')
             {
                 guessWord();
             }
             else
             {
-                Console.Write("Try again. \n");
+                Console.Write("Try again.\n");
             }
         }
         private static void guessLetter()
         {
-            var guess = Console.ReadLine().ToUpper();
-            tempGuess_ = guess[0].ToString();
+            char guess = Console.ReadLine().ToUpper()[0];
+            tempGuess_ = guess.ToString();
             ++guessingCounter_;
             if (!passwordValidator())
             {
@@ -177,10 +177,9 @@ namespace The_Hangman_Game
         }
         private static void guessWord()
         {
-            var guess = Console.ReadLine().ToUpper();
+            tempGuess_ = Console.ReadLine().ToUpper();
             ++guessingCounter_;
-            tempGuess_ = guess;
-            checkUltimateWin(guess);
+            checkUltimateWin();
             if (!passwordValidator())
             {
                 decrementLifeAndCheckCondition();
@@ -212,9 +211,9 @@ namespace The_Hangman_Game
         {
             return currentWordToGuess_.Contains(tempGuess_);
         }
-        private static void checkUltimateWin(string guess)
+        private static void checkUltimateWin()
         {
-            if (guess == currentWordToGuess_)
+            if (tempGuess_ == currentWordToGuess_)
             {
                 tempCleaningWordToGuess_ = "";
             }
@@ -253,7 +252,7 @@ namespace The_Hangman_Game
         {
             double counter = guessingCounter_;
             double timer = roundTimeCounter_.ElapsedMilliseconds/1000;
-            return Math.Round(counter / timer, 3);
+            return Math.Round(counter / timer, roundingWinFactor);
         }
         private static void resetGame()
         {
@@ -263,7 +262,8 @@ namespace The_Hangman_Game
             currentWordToGuess_ = findAWordToGuess();
             tempCleaningWordToGuess_ = currentWordToGuess_;
             notInWord_.Clear();
-            tempDisplayingGuessingWord_ = prepareDisplayWord();            
+            tempDisplayingGuessingWord_ = prepareDisplayWord(); 
+            tempGuess_ = "0";           
         }
         private static char[] prepareDisplayWord()
         {
