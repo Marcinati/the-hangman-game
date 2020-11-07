@@ -176,10 +176,9 @@ namespace The_Hangman_Game
         }
         private static void guessWord()
         {
-            string guess = Console.ReadLine().ToUpper();
-            tempGuess_ = guess;
+            tempGuess_ = Console.ReadLine().ToUpper();
             ++guessingCounter_;
-            checkUltimateWin(guess);
+            checkUltimateWin();
             if (!passwordValidator())
             {
                 decrementLifeAndCheckCondition();
@@ -211,9 +210,9 @@ namespace The_Hangman_Game
         {
             return currentWordToGuess_.Contains(tempGuess_);
         }
-        private static void checkUltimateWin(string guess)
+        private static void checkUltimateWin()
         {
-            if (guess == currentWordToGuess_)
+            if (tempGuess_ == currentWordToGuess_)
             {
                 tempCleaningWordToGuess_ = "";
             }
@@ -262,7 +261,8 @@ namespace The_Hangman_Game
             currentWordToGuess_ = findAWordToGuess();
             tempCleaningWordToGuess_ = currentWordToGuess_;
             notInWord_.Clear();
-            tempDisplayingGuessingWord_ = prepareDisplayWord();            
+            tempDisplayingGuessingWord_ = prepareDisplayWord(); 
+            tempGuess_ = "0";           
         }
         private static char[] prepareDisplayWord()
         {
