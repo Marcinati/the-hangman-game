@@ -7,13 +7,13 @@ namespace The_Hangman_Game
 {
     public class TheHangman
     {
-        const int startLifeValue = 5;
-        const int numberOfBestPlayers = 10;
-        const int numberOflinesInFile = 183;
         const string guessFilePath = "countries_and_capitals.txt.txt";
         const string highScorePath = "high_score.txt";
         const string tempHighScorePath = "temp_high_score.txt";
         const string recordSeparator = " | ";
+        const int startLifeValue = 5;
+        const int numberOfBestPlayers = 10;
+        const int numberOfLinesInGuessFile = 183;
 
         public static void playAGame()
         {
@@ -94,7 +94,7 @@ namespace The_Hangman_Game
         {      
             StreamReader reader = new StreamReader(guessFilePath);
             var rnd = new Random();
-            int numberOfRandomLine = rnd.Next(0, numberOflinesInFile - 1);
+            int numberOfRandomLine = rnd.Next(0, numberOfLinesInGuessFile - 1);
             int tempLineNumber = 0;
             while (tempLineNumber != numberOfRandomLine) {
                 ++tempLineNumber;
