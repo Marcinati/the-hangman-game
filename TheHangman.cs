@@ -77,7 +77,7 @@ namespace The_Hangman_Game
                 {
                     tempDisplayingGuessingWord_[i] = ' ';
                 }
-                if (currentWordToGuess_[i].ToString() == tempGuess_.ToUpper())
+                if (currentWordToGuess_[i].ToString() == tempGuess_)
                 {
                     var putInDisplay = tempGuess_.ToCharArray();
                     tempDisplayingGuessingWord_[i] = putInDisplay[0];
@@ -178,8 +178,8 @@ namespace The_Hangman_Game
         private static void guessWord()
         {
             var guess = Console.ReadLine().ToUpper();
-            ++guessingCounter_;
             tempGuess_ = guess;
+            ++guessingCounter_;
             checkUltimateWin(guess);
             if (!passwordValidator())
             {
