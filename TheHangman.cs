@@ -135,29 +135,29 @@ namespace The_Hangman_Game
         }
         private static void askUserToGuessALetterOrAWord()
         {
-            Console.Write("Do You want to guess a letter or a word? \n>>>Type L - for letter, W - for word and press enter. \n");
-            var decision = Console.ReadLine();
+            Console.Write("Do You want to guess a letter or a word? \n>>>Type L - for letter, W - for word and press enter.\n");
+            char decision = Console.ReadLine().ToUpper()[0];
             pickDecision(decision);
         }
-        private static void pickDecision(string decision)
+        private static void pickDecision(char decision)
         {
-            if (decision.ToUpper() == "L")
+            if (decision == 'L')
             {
                 guessLetter();
             }
-            if (decision.ToUpper() == "W")
+            if (decision == 'W')
             {
                 guessWord();
             }
             else
             {
-                Console.Write("Try again. \n");
+                Console.Write("Try again.\n");
             }
         }
         private static void guessLetter()
         {
-            var guess = Console.ReadLine().ToUpper();
-            tempGuess_ = guess[0].ToString();
+            char guess = Console.ReadLine().ToUpper()[0];
+            tempGuess_ = guess.ToString();
             ++guessingCounter_;
             if (!passwordValidator())
             {
@@ -176,7 +176,7 @@ namespace The_Hangman_Game
         }
         private static void guessWord()
         {
-            var guess = Console.ReadLine().ToUpper();
+            string guess = Console.ReadLine().ToUpper();
             tempGuess_ = guess;
             ++guessingCounter_;
             checkUltimateWin(guess);
