@@ -117,6 +117,7 @@ namespace The_Hangman_Game
             {
                 askUserToGuessALetterOrAWord();
                 showWordAfterGuessing();
+                showNotInAWordList();
                 showLife();
                 if (currentLife_ == 1)
                 {
@@ -157,12 +158,11 @@ namespace The_Hangman_Game
         private static void guessLetter()
         {
             var guess = Console.ReadLine().ToUpper();
+            tempGuess_ = guess[0].ToString();
             ++guessingCounter_;
-            tempGuess_ = guess;
-            if (!passwordValidator(guess))
+            if (!passwordValidator())
             {
-                makeNotInAWordList(guess);
-                showNotInAWordList();
+                makeNotInAWordList();
                 decrementLifeAndCheckCondition();
             }
             else
@@ -181,7 +181,7 @@ namespace The_Hangman_Game
             ++guessingCounter_;
             tempGuess_ = guess;
             checkUltimateWin(guess);
-            if (!passwordValidator(guess))
+            if (!passwordValidator())
             {
                 decrementLifeAndCheckCondition();
                 decrementLifeAndCheckCondition();
@@ -200,17 +200,17 @@ namespace The_Hangman_Game
                 Console.Write("You have lost a chance.\n");
             }
         }
-        private static void makeNotInAWordList(string guess)
+        private static void makeNotInAWordList()
         {
-            if (!notInWord_.Contains(guess))
+            if (!notInWord_.Contains(tempGuess_))
             {
-                notInWord_.Add(guess.ToUpper());
+                notInWord_.Add(tempGuess_);
                 notInWord_.Sort();
             }
         }
-        private static bool passwordValidator(string guess)
+        private static bool passwordValidator()
         {
-            return currentWordToGuess_.Contains(guess);
+            return currentWordToGuess_.Contains(tempGuess_);
         }
         private static void checkUltimateWin(string guess)
         {
