@@ -11,9 +11,10 @@ namespace The_Hangman_Game
         const string highScorePath = "high_score.txt";
         const string tempHighScorePath = "temp_high_score.txt";
         const string recordSeparator = " | ";
-        const int startLifeValue = 5;
         const int numberOfBestPlayers = 10;
         const int numberOfLinesInGuessFile = 183;
+        const int roundingWinFactor = 3;
+        const int startLifeValue = 5;
 
         public static void playAGame()
         {
@@ -251,7 +252,7 @@ namespace The_Hangman_Game
         {
             double counter = guessingCounter_;
             double timer = roundTimeCounter_.ElapsedMilliseconds/1000;
-            return Math.Round(counter / timer, 3);
+            return Math.Round(counter / timer, roundingWinFactor);
         }
         private static void resetGame()
         {
